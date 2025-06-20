@@ -6,7 +6,7 @@ pipeline {
   }
 
   parameters {
-    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '빌드할 브랜치를 입력하세요 (예: main, dev, origin/dev)')
+    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '브랜치 이름을 입력하세요 (예: main, dev)')
   }
 
   stages {
