@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+    PATH = "/Users/haejunlee/development/flutter/bin:$PATH"
+  }
+
   parameters {
     string(name: 'BRANCH_NAME', defaultValue: 'main', description: '빌드할 브랜치를 입력하세요 (예: main, dev, origin/dev)')
   }
