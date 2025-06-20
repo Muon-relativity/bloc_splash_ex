@@ -5,10 +5,6 @@ pipeline {
     PATH = "/Users/haejunlee/development/flutter/bin:$PATH"
   }
 
-  parameters {
-    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '브랜치 이름을 입력하세요 (예: main, dev)')
-  }
-
   stages {
     stage('Checkout') {
       steps {
