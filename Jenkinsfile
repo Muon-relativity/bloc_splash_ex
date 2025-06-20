@@ -15,7 +15,9 @@ pipeline {
         script {
           def cleanBranch = params.BRANCH_NAME.replaceFirst(/^origin\//, '')
           echo "📦 Checking out branch: ${cleanBranch}"
-          git branch: cleanBranch, url: 'https://github.com/Muon-relativity/bloc_splash_ex.git'
+          git url: 'https://github.com/Muon-relativity/bloc_splash_ex.git',
+              branch: cleanBranch,
+              refspec: "+refs/heads/${cleanBranch}:refs/remotes/origin/${cleanBranch}"
         }
       }
     }
