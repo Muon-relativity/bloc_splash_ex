@@ -12,9 +12,10 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        def cleanBranch = params.BRANCH_NAME.replaceFirst(/^origin\//, '')
-        echo "📦 Checking out branch: ${params.BRANCH_NAME}"
-        git branch: "${params.BRANCH_NAME}", url: "${env.GIT_REPO}"
+        script {
+          def cleanBranch = params.BRANCH_NAME.replaceFirst(/^origin\//, '')
+          git branch: cleanBranch, url: 'https://github.com/Muon-relativity/bloc_splash_ex.git'
+        }
       }
     }
 
