@@ -12,6 +12,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        def cleanBranch = params.BRANCH_NAME.replaceFirst(/^origin\//, '')
         echo "📦 Checking out branch: ${params.BRANCH_NAME}"
         git branch: "${params.BRANCH_NAME}", url: "${env.GIT_REPO}"
       }
