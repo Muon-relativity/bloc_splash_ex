@@ -2,11 +2,7 @@ pipeline {
   agent any
 
   parameters {
-    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '빌드할 브랜치를 입력하세요 (예: main, dev, feature/xxx)')
-  }
-
-  environment {
-    GIT_REPO = 'https://github.com/Muon-relativity/bloc_splash_ex.git'
+    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '빌드할 브랜치를 입력하세요 (예: main, dev, origin/dev)')
   }
 
   stages {
@@ -14,6 +10,7 @@ pipeline {
       steps {
         script {
           def cleanBranch = params.BRANCH_NAME.replaceFirst(/^origin\//, '')
+          echo "📦 Checking out branch: ${cleanBranch}"
           git branch: cleanBranch, url: 'https://github.com/Muon-relativity/bloc_splash_ex.git'
         }
       }
@@ -21,35 +18,30 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        echo "📥 Running flutter pub get"
         sh 'flutter pub get'
       }
     }
 
     stage('Analyze') {
       steps {
-        echo "🔍 Running flutter analyze"
-        sh 'flutter analyze || true'  // 실패해도 다음 단계로 진행
+        sh 'flutter analyze || true'
       }
     }
 
     stage('Test') {
       steps {
-        echo "🧪 Running tests"
-        sh 'flutter test || true'     // 실패해도 계속
+        sh 'flutter test || true'
       }
     }
 
     stage('Build APK') {
       steps {
-        echo "🏗️ Building release APK"
         sh 'flutter build apk'
       }
     }
 
     stage('Archive APK') {
       steps {
-        echo "📦 Archiving APK file"
         archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/*.apk', fingerprint: true
       }
     }
@@ -57,10 +49,10 @@ pipeline {
 
   post {
     success {
-      echo "✅ Build completed successfully for ${params.BRANCH_NAME}"
+      echo "✅ Build completed successfully"
     }
     failure {
-      echo "❌ Build failed on branch ${params.BRANCH_NAME}"
+      echo "❌ Build failed"
     }
   }
 }
